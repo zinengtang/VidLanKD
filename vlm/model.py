@@ -128,11 +128,11 @@ class CoLwithBert(BertForMaskedLM):
 #             self.hinge_loss = paired_hinge_rank_loss
             
         if config.do_kd2_objective:
-#             self.crd_loss = CRD(config.hidden_size, config.hidden_size, config.hidden_size)
+            self.crd_loss = CRD(config.hidden_size, config.hidden_size, config.hidden_size)
 #             self.kl_loss = nn.KLDivLoss()
 #             self.temperature = nn.Parameter(torch.tensor(1.0))
-            self.kd2_student_head = BertVLMHingeHead(config)
-            self.kd2_teacher_head = BertVLMHingeHead(config)
+            self.kd2_student_head = BertVLMSimpleHead(config)
+#             self.kd2_teacher_head = BertVLMHingeHead(config)
             
 #         if config.do_voken_reg:
 #             assert config.voken_dim is not None, "you need to set voken dim in the config."
@@ -201,10 +201,10 @@ class CoLwithBert(BertForMaskedLM):
             
         if self.do_kd2_objective:  
             kd_pred2 = self.kd2_student_head(sequence_output)
-            kd_teacher2 = self.kd2_teacher_head(teacher_sequence_output)
+            kd_teacher2 = teacher_sequence_output
 #             kd2_loss = paired_hinge_rank_loss(kd_pred2, kd_teacher2, attention_mask, 1.0)
-            for i in range(sequence_output.size(1)):
-                kd2_loss += contrastive_loss_item(kd_pred2[:, i], kd_teacher2[:, i], 0.5) * 1.0
+#             for i in range(sequence_output.size(1)):
+#                 kd2_loss += contrastive_loss_item(kd_pred2[:, i], kd_teacher2[:, i], 0.5) * 1.0
 #             voken_hinge_loss /= voken_hinge_pred.size(1)
 #             for i in range(voken_hinge_pred.size(0)):
 #                 voken_hinge_loss += mmd_rbf_noaccelerate(voken_hinge_pred[i], vokens[i])
@@ -215,8 +215,8 @@ class CoLwithBert(BertForMaskedLM):
 #             print(kd2_loss)
 #             teacher_hidden_loss = self.crd_loss(sequence_output, teacher_sequence_output, item_ids)
 #             print(teacher_hidden_loss)
-#             for i in range(vokens.size(1)):
-#                 kd2_loss += self.crd_loss(sequence_output[:, i], teacher_sequence_output[:, i], item_ids).mean()
+            for i in range(vokens.size(1)):
+                kd2_loss += self.crd_loss(kd_pred2[:, i], kd_teacher2[:, i], item_ids).mean()
 #             print(kd2_loss/ sequence_output.size(1))
 # #                 teacher_hidden_loss += mmd_rbf_noaccelerate(teacher_sequence_output[i], sequence_output[i])
             kd2_loss /= sequence_output.size(1)
