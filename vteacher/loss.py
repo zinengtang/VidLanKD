@@ -141,6 +141,8 @@ def paired_hinge_rank_loss_learning(
     :param margin: margin in the ranking loss
     :return: a scalar loss
     """
+    if True:
+        student_output/=student_output.norm(2, dim=-1, keepdim=True)
 #     print(student_output.size(), teacher_output.size())
     if student_output.size(0) % 2 != 0:
         student_output = torch.cat([student_output, student_output[-1:]])
