@@ -133,16 +133,14 @@ class ContrastMemory(nn.Module):
             idx = self.multinomial.draw(batchSize * (K + 1)).view(batchSize, -1)
             idx.select(1, 0).copy_(y.data)
         # sample
-#         weight_v1 = torch.index_select(self.memory_v1, 0, idx.view(-1)).detach()
-#         weight_v1 = weight_v1.view(batchSize, K + 1, inputSize)
-        out_v2 = v2
-# torch.bmm(weight_v1, v2.view(batchSize, inputSize, 1))
+        weight_v1 = torch.index_select(self.memory_v1, 0, idx.view(-1)).detach()
+        weight_v1 = weight_v1.view(batchSize, K + 1, inputSize)
+        out_v2 = torch.bmm(weight_v1, v2.view(batchSize, inputSize, 1))
         out_v2 = torch.exp(torch.div(out_v2, T))
         # sample
-#         weight_v2 = torch.index_select(self.memory_v2, 0, idx.view(-1)).detach()
-#         weight_v2 = weight_v2.view(batchSize, K + 1, inputSize)
-        out_v1 = v1
-#         torch.bmm(weight_v2, v1.view(batchSize, inputSize, 1))
+        weight_v2 = torch.index_select(self.memory_v2, 0, idx.view(-1)).detach()
+        weight_v2 = weight_v2.view(batchSize, K + 1, inputSize)
+        out_v1 = torch.bmm(weight_v2, v1.view(batchSize, inputSize, 1))
         out_v1 = torch.exp(torch.div(out_v1, T))
 #         print(out_v1)
         # set Z if haven't been set yet
@@ -160,20 +158,20 @@ class ContrastMemory(nn.Module):
         out_v2 = torch.div(out_v2, Z_v2).contiguous()
 
         # update memory
-#         with torch.no_grad():
-#             l_pos = torch.index_select(self.memory_v1, 0, y.view(-1))
-#             l_pos.mul_(momentum)
-#             l_pos.add_(torch.mul(v1, 1 - momentum))
-#             l_norm = l_pos.pow(2).sum(1, keepdim=True).pow(0.5)
-#             updated_v1 = l_pos.div(l_norm)
-#             self.memory_v1.index_copy_(0, y, updated_v1)
+        with torch.no_grad():
+            l_pos = torch.index_select(self.memory_v1, 0, y.view(-1))
+            l_pos.mul_(momentum)
+            l_pos.add_(torch.mul(v1, 1 - momentum))
+            l_norm = l_pos.pow(2).sum(1, keepdim=True).pow(0.5)
+            updated_v1 = l_pos.div(l_norm)
+            self.memory_v1.index_copy_(0, y, updated_v1)
 
-#             ab_pos = torch.index_select(self.memory_v2, 0, y.view(-1))
-#             ab_pos.mul_(momentum)
-#             ab_pos.add_(torch.mul(v2, 1 - momentum))
-#             ab_norm = ab_pos.pow(2).sum(1, keepdim=True).pow(0.5)
-#             updated_v2 = ab_pos.div(ab_norm)
-#             self.memory_v2.index_copy_(0, y, updated_v2)
+            ab_pos = torch.index_select(self.memory_v2, 0, y.view(-1))
+            ab_pos.mul_(momentum)
+            ab_pos.add_(torch.mul(v2, 1 - momentum))
+            ab_norm = ab_pos.pow(2).sum(1, keepdim=True).pow(0.5)
+            updated_v2 = ab_pos.div(ab_norm)
+            self.memory_v2.index_copy_(0, y, updated_v2)
 
         return out_v1, out_v2
 
