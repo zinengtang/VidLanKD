@@ -298,7 +298,7 @@ class CoLwithBert(BertForMaskedLM):
 #         voken_prediction = self.visual_hinge_head(sequence_output, attention_mask)
 
         if self.voken_hinge_loss:
-            voken_prediction = sequence_output/sequence_output.norm(2, dim=-1, keepdim=True)
+            voken_prediction = sequence_output
 #             print(voken_labels.size(), attention_mask.unsqueeze(-1).size())
             voken_prediction *= attention_mask.unsqueeze(-1)
 #             voken_labels *= attention_mask
