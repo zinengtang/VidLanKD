@@ -3,8 +3,22 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.distributed as dist
 
+def guassian_kernel(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None):
+    n_samples = int(source.size()[0])+int(target.size()[0])
+    total = torch.cat([source, target], dim=0)
+    total0 = total.unsqueeze(0).expand(int(total.size(0)), int(total.size(0)), int(total.size(1)))
+    total1 = total.unsqueeze(1).expand(int(total.size(0)), int(total.size(0)), int(total.size(1)))
+    L2_distance = ((total0-total1)**2).sum(2)
+    if fix_sigma:
+        bandwidth = fix_sigma
+    else:
+        bandwidth = torch.sum(L2_distance.data) / (n_samples**2-n_samples)
+    bandwidth /= kernel_mul ** (kernel_num // 2)
+    bandwidth_list = [bandwidth * (kernel_mul**i) for i in range(kernel_num)]
+    kernel_val = [torch.exp(-L2_distance / bandwidth_temp) for bandwidth_temp in bandwidth_list]
+    return sum(kernel_val)#/len(kernel_val)
 
-class NSTLoss(nn.Module):
+class MMDPolyLoss(nn.Module):
 	'''
 	Like What You Like: Knowledge Distill via Neuron Selectivity Transfer
 	https://arxiv.org/pdf/1707.01219.pdf
@@ -13,11 +27,8 @@ class NSTLoss(nn.Module):
 		super(NSTLoss, self).__init__()
 
 	def forward(self, fm_s, fm_t):
-# 		fm_s = fm_s.view(fm_s.size(0), fm_s.size(1), -1)
-# 		fm_s = F.normalize(fm_s, dim=2)
-
-# 		fm_t = fm_t.view(fm_t.size(0), fm_t.size(1), -1)
-# 		fm_t = F.normalize(fm_t, dim=2)
+		fm_s = F.normalize(fm_s, dim=2)
+		fm_t = F.normalize(fm_t, dim=2)
 
 		loss = self.poly_kernel(fm_s, fm_s).mean() \
 			 - 2 * self.poly_kernel(fm_s, fm_t).mean()
@@ -33,21 +44,6 @@ class NSTLoss(nn.Module):
     
 def hinge(x):
     return torch.clamp(x, min=0.)
-
-def guassian_kernel(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None):
-    n_samples = int(source.size()[0])+int(target.size()[0])
-    total = torch.cat([source, target], dim=0)
-    total0 = total.unsqueeze(0).expand(int(total.size(0)), int(total.size(0)), int(total.size(1)))
-    total1 = total.unsqueeze(1).expand(int(total.size(0)), int(total.size(0)), int(total.size(1)))
-    L2_distance = ((total0-total1)**2).sum(2)
-    if fix_sigma:
-        bandwidth = fix_sigma
-    else:
-        bandwidth = torch.sum(L2_distance.data) / (n_samples**2-n_samples)
-    bandwidth /= kernel_mul ** (kernel_num // 2)
-    bandwidth_list = [bandwidth * (kernel_mul**i) for i in range(kernel_num)]
-    kernel_val = [torch.exp(-L2_distance / bandwidth_temp) for bandwidth_temp in bandwidth_list]
-    return sum(kernel_val)#/len(kernel_val)
 
 
 def mmd_rbf_accelerate(source, target, kernel_mul=2.0, kernel_num=5, fix_sigma=None):
