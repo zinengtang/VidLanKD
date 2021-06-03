@@ -1,9 +1,9 @@
 # videokd
 
 
-Run Scripts
+Run Scripts which provide running commands.
 
-vteacher contains teacher model training
+'vteacher' contains teacher model training 
+'vteacher/loss' contains alal loss functions used
 
-
-vlm contains KD and student model
+'vlm' contains KD process and the student model
