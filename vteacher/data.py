@@ -12,9 +12,8 @@ import torch
 from torch.utils.data import DataLoader, Dataset
 import tqdm
 
-feature_dir = '/net/bvisionserver3/playpen10/terran/'
-# '/net/bvision-lambda1/data/terran/'
-feature_dir_data = '/net/bvisionserver3/playpen10/terran/'
+feature_dir = ''
+feature_dir_data = ''
 
 def find_overlap(s1, s2):
     for i in range(len(s1)):
@@ -52,7 +51,7 @@ class CoLDataset(Dataset):
             self.keys = list(set(self.all_keys).intersection(set(self.keys)))
             self.keys = self.keys[:len(self.keys)//4*4]
         print(len(self.keys)) 
-#         raise
+
         self.max_v_len = 384
         self.sent_len = 128
 
@@ -70,12 +69,10 @@ class CoLDataset(Dataset):
         return len(self.keys)
 
     def __getitem__(self, item):
-#         start=time.time()
         example = self.keys[item]
         
         sent = ''
         start_index = 0
-#         np.random.choice(range(len(self.data[example]["start"])))
         for stop_index, text_item in enumerate(self.data[example]["text"]):
             if start_index <= stop_index:
                 cand_item = text_item
@@ -108,7 +105,7 @@ class CoLDataset(Dataset):
                 print('didnt found the feature')
                 feat_resnet = np.zeros([self.max_v_len, 2048+512])
                 feat_bn = np.zeros([self.max_v_len, 2048])
-#         feat_bn = np.zeros([feat_resnet.shape[0], 2048])        
+   
         video_feature, video_mask = self._load_indexed_video_feature_untied(feat_resnet, feat_bn, start, end)
 
         encoded_sent = self.tokenizer.encode_plus(
