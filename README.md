@@ -50,6 +50,7 @@ bash data/wiki/get_data_cased.bash en
 ### Video Dataset
 
 [Howto100m](https://www.di.ens.fr/willow/research/howto100m/)
+where you caan download official captions and videos features.
 
 #### Video Features Extraction Code
 
