@@ -28,14 +28,6 @@ Running knowledge transfer command (GPUs, teacher checkpoint, student checkpoint
 bash scripts/small_vlm_wiki103.bash 0,1,2,3 howto100m_bert_small_vokenhinge wiki103_bert_small_vokenmmd
 bash scripts/vlm_wiki.bash 0,1,2,3 wiki_bert_vokenmmd
 ```
-## Video Features Extraction Code
-
-We extracted our 2D-level video features with ResNet152 
-Github Link: [torchvision](https://github.com/pytorch/vision)
-
-We extracted our 3D-level video features with 3D-ResNext
-Github Link: [3D-RexNext](https://github.com/kenshohara/3D-ResNets-PyTorch) 
-
 
 ## Dataset Links
 
@@ -43,6 +35,13 @@ Github Link: [3D-RexNext](https://github.com/kenshohara/3D-ResNets-PyTorch)
 
 [Howto100m](https://www.di.ens.fr/willow/research/howto100m/)
 
+### Video Features Extraction Code
+
+We extracted our 2D-level video features with ResNet152 
+Github Link: [torchvision](https://github.com/pytorch/vision)
+
+We extracted our 3D-level video features with 3D-ResNext
+Github Link: [3D-RexNext](https://github.com/kenshohara/3D-ResNets-PyTorch) 
 
 ### Download GLUE dataset
 Downloaing scripts from [huggingface transformers](https://github.com/huggingface/transformers/tree/master/examples/text-classification) (transformers==3.3)
