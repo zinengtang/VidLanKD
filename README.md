@@ -26,7 +26,7 @@ bash scripts/base_vlm_howto100m.bash 0,1,2,3 howto100m_bert_base_vokenhinge
 Running knowledge transfer command (GPUs, teacher checkpoint, student checkpoint to be saved)
 ```
 bash scripts/small_vlm_wiki103.bash 0,1,2,3 howto100m_bert_small_vokenhinge wiki103_bert_small_vokenmmd
-bash scripts/vlm_wiki.bash 0,1,2,3 wiki_bert_vokenmmd
+bash scripts/base_vlm_wiki.bash 0,1,2,3 wiki_bert_vokenmmd
 ```
 
 ## Dataset Links
@@ -56,7 +56,7 @@ python download_glue_data.py --data_dir data/glue --tasks all
 Running GLUE evaluation for snapshots from different epochs:
 ```bash
 # bash scripts/run_glue_epochs.bash $GPUS #SNAP_PATH --snaps $NUM_OF_SNAPS                            
-bash scripts/run_glue_at_epoch.bash 0,1,2,3 3 snap/vlm/wiki103_bert_small_vokenmmd_image/checkpoint-epoch0019                  
+bash scripts/run_glue_at_epoch.bash 0,1,2,3 3 snap/vlm/wiki103_bert_small_vokenmmd/checkpoint-epoch0019                  
 ```
 
 
