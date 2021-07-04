@@ -18,11 +18,16 @@ pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cud
 ```
 
 ## Running
-Running pre-training command
+Running teache pre-training command (GPUs, teacher checkpoint to be saved)
 ```
-bash scripts/pretrain.sh 0,1,2,3
+bash scripts/small_vlm_howto100m.bash 0,1,2,3 howto100m_bert_small_vokenhinge
+bash scripts/base_vlm_howto100m.bash 0,1,2,3 howto100m_bert_base_vokenhinge
 ```
-
+Running knowledge transfer command (GPUs, teacher checkpoint, student checkpoint to be saved)
+```
+bash scripts/small_vlm_wiki103.bash 0,1,2,3 howto100m_bert_small_vokenhinge wiki103_bert_small_vokenmmd
+bash scripts/vlm_wiki.bash 0,1,2,3 wiki_bert_vokenmmd
+```
 ## Video Features Extraction Code
 
 We extracted our 2D-level video features with ResNet152 
