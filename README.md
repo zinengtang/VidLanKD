@@ -35,11 +35,23 @@ bash scripts/base_vlm_wiki.bash 0,1,2,3 howto100m_bert_base_vokenhinge wiki_bert
 
 ## Dataset Links
 
-### Pre-training Dataset
+### Pure-Language Dataset Downloading and Pre-Processing 
+We provide scripts to obtain datasets "wiki103" and "wiki".
+1. **Wiki103**. The [wiki103](https://blog.einstein.ai/the-wikitext-long-term-dependency-language-modeling-dataset/), a seleted subset of English Wikipedia.
+    ```shell script
+    bash data/wiki103/get_data_cased.sh
+    ```
+2. **English Wikipedia**. 
+The scripts are modified from [XLM](https://github.com/facebookresearch/XLM).
+    ```shell script
+    bash data/wiki/get_data_cased.bash en
+    ```
+
+### Video Dataset
 
 [Howto100m](https://www.di.ens.fr/willow/research/howto100m/)
 
-### Video Features Extraction Code
+#### Video Features Extraction Code
 
 We extracted our 2D-level video features with ResNet152 
 Github Link: [torchvision](https://github.com/pytorch/vision)
