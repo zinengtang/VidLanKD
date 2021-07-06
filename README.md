@@ -1,7 +1,8 @@
 # VidLanKD
 
-Implementation of VidLanKD by Zineng Tang, Jaemin Cho, Hao Tan, Mohit Bansal
-(arxiv link: )
+Implementation of [**VidLanKD: Improving Language Understanding via Video-Distilled Knowledge Transfer**](https://github.com/zinengtang/VidLanKD/) by Zineng Tang, Jaemin Cho, Hao Tan, Mohit Bansal.
+<!-- arxiv link: to be updated-->
+
 ## Setup
 ```
 # Create python environment (optional)
@@ -17,25 +18,9 @@ cd apex
 pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
 
-## Running
-Running teache pre-training command
-```bash
-# bash scripts/small_vlm_howto100m.bash $GPUS #teacher_SNAP_PATH
-bash scripts/small_vlm_howto100m.bash 0,1,2,3 howto100m_bert_small_vokenhinge
-# bash scripts/base_vlm_howto100m.bash $GPUS #teacher_SNAP_PATH
-bash scripts/base_vlm_howto100m.bash 0,1,2,3 howto100m_bert_base_vokenhinge
-```
-Running knowledge transfer command
-```bash
-# bash scripts/small_vlm_wiki103.bash $GPUS #teacher_SNAP_PATH #student_SNAP_PATH
-bash scripts/small_vlm_wiki103.bash 0,1,2,3 howto100m_bert_small_vokenhinge/checkpoint-epoch0019 wiki103_bert_small_vokenmmd
-# bash scripts/base_vlm_wiki.bash $GPUS #teacher_SNAP_PATH #student_SNAP_PATH
-bash scripts/base_vlm_wiki.bash 0,1,2,3 howto100m_bert_base_vokenhinge/checkpoint-epoch0019 wiki_bert_base_vokenmmd
-```
+## Dataset Preparation
 
-## Dataset Links
-
-### Pure-Language Dataset Downloading and Pre-Processing 
+### Text Dataset 
 We provide scripts to obtain datasets "wiki103" and "wiki".
 
 [**Wiki103**](https://blog.einstein.ai/the-wikitext-long-term-dependency-language-modeling-dataset/), a seleted subset of English Wikipedia.
@@ -48,6 +33,7 @@ The scripts are modified from [XLM](https://github.com/facebookresearch/XLM).
 bash data/wiki/get_data_cased.bash en
 ```
 
+
 ### Video Dataset
 
 [Howto100m](https://www.di.ens.fr/willow/research/howto100m/)
@@ -55,30 +41,50 @@ where you can download official captions and videos features.
 
 #### Video Features Extraction Code
 
-We extracted our 2D-level video features with ResNet152 
-* Github Link: [torchvision](https://github.com/pytorch/vision)
+To be updated.
 
-We extracted our 3D-level video features with 3D-ResNext
-* Github Link: [3D-RexNext](https://github.com/kenshohara/3D-ResNets-PyTorch) 
+* We extracted our 2D-level video features with ResNet152 from [torchvision](https://github.com/pytorch/vision).
+* We extracted our 3D-level video features with [3D-RexNext](https://github.com/kenshohara/3D-ResNets-PyTorch).
 
-### Download GLUE dataset
-Downloaing scripts from [huggingface transformers text classification example](https://github.com/huggingface/transformers/tree/master/examples/text-classification) (transformers==3.3)
+
+
+### Downstream tasks
+
+#### [GLUE](https://gluebenchmark.com/) dataset
+<!-- Downloaing scripts from [huggingface transformers text classification example](https://github.com/huggingface/transformers/tree/master/examples/text-classification) (transformers==3.3) -->
+<!-- wget https://raw.githubusercontent.com/huggingface/transformers/master/utils/download_glue_data.py -->
+
+Download dataset
 ```bash
-wget https://raw.githubusercontent.com/huggingface/transformers/master/utils/download_glue_data.py
 python download_glue_data.py --data_dir data/glue --tasks all
 ```
 
-### Finetuning on GLUE Tasks
-[GLUE](https://gluebenchmark.com/) benchmark finetuning evaluation. Code from the [huggingface transformers](https://github.com/huggingface/transformers).
+## Training
 
-Running GLUE evaluation for snapshots from different epochs:
+**Teacher model pre-training**
 ```bash
-# bash scripts/run_glue_epochs.bash $GPUS #SNAP_PATH --snaps $NUM_OF_SNAPS                            
+# bash scripts/small_vlm_howto100m.bash $GPUS #teacher_SNAP_PATH
+bash scripts/small_vlm_howto100m.bash 0,1,2,3 howto100m_bert_small_vokenhinge
+# bash scripts/base_vlm_howto100m.bash $GPUS #teacher_SNAP_PATH
+bash scripts/base_vlm_howto100m.bash 0,1,2,3 howto100m_bert_base_vokenhinge
+```
+
+**Knowledge transfer to student model**
+```bash
+# bash scripts/small_vlm_wiki103.bash $GPUS #teacher_SNAP_PATH #student_SNAP_PATH
+bash scripts/small_vlm_wiki103.bash 0,1,2,3 howto100m_bert_small_vokenhinge/checkpoint-epoch0019 wiki103_bert_small_vokenmmd
+# bash scripts/base_vlm_wiki.bash $GPUS #teacher_SNAP_PATH #student_SNAP_PATH
+bash scripts/base_vlm_wiki.bash 0,1,2,3 howto100m_bert_base_vokenhinge/checkpoint-epoch0019 wiki_bert_base_vokenmmd
+```
+
+**Finetuning on [GLUE](https://gluebenchmark.com/) tasks**
+```bash
+# bash scripts/run_glue_epochs.bash $GPUS $SNAP_PATH --snaps $NUM_OF_SNAPS                            
 bash scripts/run_glue_at_epoch.bash 0,1,2,3 3 snap/vlm/wiki103_bert_small_vokenmmd/checkpoint-epoch0019                  
 ```
 
 
-## Acknowledgement
+## Acknowledgements
 
 Part of the code is built based on [vokenization](https://github.com/airsplay/vokenization), huggingface [transformers](https://github.com/huggingface/transformers), and facebook [faiss](https://github.com/facebookresearch/faiss).
 
