@@ -79,7 +79,7 @@ bash scripts/base_vlm_wiki.bash 0,1,2,3 howto100m_bert_base_vokenhinge/checkpoin
 
 **Finetuning on [GLUE](https://gluebenchmark.com/) tasks**
 ```bash
-# bash scripts/run_glue_epochs.bash $GPUS $SNAP_PATH --snaps $NUM_OF_SNAPS                            
+# bash scripts/run_glue_at_epoch.bash $GPUS $SNAP_PATH                        
 bash scripts/run_glue_at_epoch.bash 0,1,2,3 3 snap/vlm/wiki103_bert_small_vokenmmd/checkpoint-epoch0019                  
 ```
 
