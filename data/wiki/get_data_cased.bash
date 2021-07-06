@@ -20,7 +20,7 @@ MAIN_PATH=$WIKI_PATH
 
 # tools paths
 TOOLS_PATH=$MAIN_PATH/tools
-TOKENIZE=$TOOLS_PATH/tokenize.sh
+TOKENIZE=$TOOLS_PATH/tokenize.bash
 REMOVE_ACCENT=$TOOLS_PATH/remove_accent.py
 
 # Wiki data
