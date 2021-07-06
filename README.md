@@ -25,7 +25,7 @@ We provide scripts to obtain datasets "wiki103" and "wiki".
 
 [**Wiki103**](https://blog.einstein.ai/the-wikitext-long-term-dependency-language-modeling-dataset/), a seleted subset of English Wikipedia.
 ```shell script
-bash data/wiki103/get_data_cased.sh
+bash data/wiki103/get_data_cased.bash
 ```
 **English Wikipedia**. 
 The scripts are modified from [XLM](https://github.com/facebookresearch/XLM).
