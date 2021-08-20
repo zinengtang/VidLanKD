@@ -1,7 +1,8 @@
 # VidLanKD
 
 Implementation of [**VidLanKD: Improving Language Understanding via Video-Distilled Knowledge Transfer**](https://arxiv.org/pdf/2107.02681.pdf) by Zineng Tang, Jaemin Cho, Hao Tan, Mohit Bansal.
-<!-- arxiv link: to be updated-->
+
+Pre-trained models coming soon
 
 ## Setup
 ```
