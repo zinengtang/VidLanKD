@@ -21,7 +21,9 @@ pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cud
 
 ## Pretrained Models
 (1. Teacher model (BERT-12L-768H) 2. student mode (BERT-12L-768H, KD-NST)) relasing more ...
+
 [Gdrive link](https://drive.google.com/drive/folders/1zpwjej5SuuMJ65YU02x_T7kxbd7Ed-j_?usp=sharing)
+
 Creat directory and put the models under 'snap/vlm' or custom name
 
 ## Dataset Preparation
