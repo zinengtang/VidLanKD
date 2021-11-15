@@ -11,9 +11,9 @@ import h5py
 import torch
 from torch.utils.data import DataLoader, Dataset
 import tqdm
-# feature_dir_data = 'data/howto100m'
-feature_dir = '/net/bvisionserver3/playpen10/terran/'
-feature_dir_data = '/net/bvisionserver3/playpen10/terran/'
+
+feature_dir = '.'
+feature_dir_data = '.'
 
 def find_overlap(s1, s2):
     for i in range(len(s1)):
@@ -77,7 +77,7 @@ class CoLDataset(Dataset):
                 cand_item = text_item
                 if sent != '':
                     sent, cand_item = find_overlap(str(sent), str(cand_item))       
-                sent += cand_item
+                sent += str(cand_item) + ' . '
             if len(sent.split(' ')) >= self.sent_len:
                 break
                 
@@ -104,7 +104,7 @@ class CoLDataset(Dataset):
                 print('didnt found the feature')
                 feat_resnet = np.zeros([self.max_v_len, 2048+512])
                 feat_bn = np.zeros([self.max_v_len, 2048])
-#         feat_bn = np.zeros([feat_resnet.shape[0], 2048])        
+     
         video_feature, video_mask = self._load_indexed_video_feature_untied(feat_resnet, feat_bn, start, end)
 
         encoded_sent = self.tokenizer.encode_plus(
