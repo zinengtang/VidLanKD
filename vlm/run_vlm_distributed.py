@@ -524,7 +524,6 @@ def evaluate(args, eval_dataset, model, tokenizer, vteacher, prefix="") -> Dict:
                 soft_labels = None
 #                 teacher_output_prediction.argmax(-1)
 #                 soft_labels[token_labels==-100] = -100
-#                 teacher_voken_prediction = torch.tensor(teacher_voken_prediction.detach().cpu().numpy()).to(args.device)
             else:
                 teacher_voken_prediction = None
                 soft_labels = None
@@ -690,8 +689,8 @@ def setup(gpu, args):
 
     if args.do_kd1_objective or args.do_kd2_objective:
         vteacher = VteacherBert(config=config)
-#         model_weights = torch.load(args.teacher_dir+'pytorch_model.bin')
-#         vteacher.load_state_dict(model_weights, strict=True)        
+        model_weights = torch.load(args.teacher_dir+'pytorch_model.bin')
+        vteacher.load_state_dict(model_weights, strict=True)        
         vteacher.to(args.device)
         vteacher.eval()
     else:
