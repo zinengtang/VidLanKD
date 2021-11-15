@@ -197,11 +197,13 @@ def mask_correlated_samples(batch_size):
             mask[batch_size + i, i] = 0
         return mask
 
+
 def contrastive_loss(z_i, z_j, mask, temperature=0.5):
     loss = 0.
     for i in range(z_i.size(1)):
         loss += contrastive_loss_item(z_i[:, i], z_j)
     return loss/z_i.size(1)
+
 
 def contrastive_loss_item(z_i, z_j, temperature=0.5):
 
