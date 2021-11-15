@@ -26,6 +26,8 @@ relasing more ...
 
 Creat directory and put the models under 'snap/vlm' or custom name
 
+
+
 ## Dataset Preparation
 ### Text Dataset 
 We provide scripts to obtain datasets "wiki103" and "wiki".
