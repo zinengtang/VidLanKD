@@ -52,7 +52,7 @@ class CoLDataset(Dataset):
             self.keys = self.keys[:len(self.keys)//4*4]
         print(len(self.keys)) 
         self.max_v_len = 384
-        self.sent_len = 128
+        self.sent_len = 126
 
         self.tokenizer = tokenizer
 
