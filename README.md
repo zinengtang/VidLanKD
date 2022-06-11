@@ -20,7 +20,7 @@ pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cud
 ## Pretrained Models
 (1. Teacher model (BERT-12L-768H) 2. student mode (BERT-12L-768H, KD-NST)) 
 [Gdrive link](https://drive.google.com/drive/folders/1zpwjej5SuuMJ65YU02x_T7kxbd7Ed-j_?usp=sharing)
-relasing more ...
+We also updated small models.
 
 Creat directory and put the models under 'snap/vlm' or custom name
 
@@ -48,7 +48,8 @@ where you can download official captions and videos features.
 
 #### Video Features Extraction Code
 
-To be updated.
+We follow Howtoo100m to use its feature extractor
+[2D+3D]([https://www.di.ens.fr/willow/research/howto100m/](https://github.com/antoine77340/video_feature_extractor))
 
 * We extracted our 2D-level video features with ResNet152 from [torchvision](https://github.com/pytorch/vision).
 * We extracted our 3D-level video features with [3D-RexNext](https://github.com/kenshohara/3D-ResNets-PyTorch).
