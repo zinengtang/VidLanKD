@@ -89,7 +89,7 @@ bash scripts/base_vlm_wiki.bash 0,1,2,3 howto100m_bert_base_vokenhinge/checkpoin
 
 **Baseline BERT model**
 ```bash
-bash scripts/base_wiki.bash 0,1,2,3
+bash scripts/base_wiki.bash 0,1,2,3 wiki_bert_base
 ```
 
 
