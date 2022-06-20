@@ -86,11 +86,19 @@ bash scripts/small_vlm_wiki103.bash 0,1,2,3 howto100m_bert_small_vokenhinge/chec
 bash scripts/base_vlm_wiki.bash 0,1,2,3 howto100m_bert_base_vokenhinge/checkpoint-epoch0019 wiki_bert_base_vokenmmd
 ```
 
+
+**Baseline BERT model**
+```bash
+bash scripts/base_wiki.bash 0,1,2,3
+```
+
+
 **Finetuning on [GLUE](https://gluebenchmark.com/) tasks**
 ```bash
 # bash scripts/run_glue_at_epoch.bash $GPUS $NumTrainEpochs $SNAP_PATH                        
 bash scripts/run_glue_at_epoch.bash 0,1,2,3 3 snap/vlm/wiki103_bert_small_vokenmmd/checkpoint-epoch0019                  
 ```
+
 
 
 ## Acknowledgements
