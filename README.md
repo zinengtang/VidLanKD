@@ -64,6 +64,7 @@ We follow Howtoo100m to use its feature extractor
 
 Download dataset
 ```bash
+wget https://raw.githubusercontent.com/huggingface/transformers/master/utils/download_glue_data.py
 python download_glue_data.py --data_dir data/glue --tasks all
 ```
 
